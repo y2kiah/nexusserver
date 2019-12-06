@@ -1,0 +1,55 @@
+<%
+responseMessage = "";
+if ENV.REQUEST_METHOD == "POST" then
+	if FORM.uname == "test" and FORM.pw == "test" then
+		location("index.luap");
+		killSession(); -- force session id to change
+		startSession();
+		SESSION.userid = FORM.uname;
+		saveSession();
+		return;
+	else
+		responseMessage = "Incorrect user name or password";
+	end
+end
+
+%>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="author" content="Jeff Kiah" />
+<meta name="copyright" content="&copy; Copyright 2011 Jeff Kiah" />
+<title>Nexus Admin</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<!-- YUI CSS -->
+<link rel="stylesheet" type="text/css" href="yui/resize/assets/skins/sam/resize.css">
+<link rel="stylesheet" type="text/css" href="yui/layout/assets/skins/sam/layout.css">
+<!-- custom CSS -->
+<style type="text/css">
+</style>
+<!-- YUI JS -->
+<!--<script type="text/javascript" src="yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="yui/element/element-min.js"></script>
+<script type="text/javascript" src="yui/animation/animation-min.js"></script>
+<script type="text/javascript" src="yui/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="yui/resize/resize-min.js"></script>
+<script type="text/javascript" src="yui/layout/layout-min.js"></script>-->
+</head>
+
+<body class="yui-skin-sam">
+<form name="" action="<%o(ENV.SCRIPT_NAME)%>" method="post">
+	<span><%o(responseMessage)%></span><br/>
+	<label>Username
+	<input name="uname" type="text" value="<%o(FORM.uname or "")%>" required autocomplete="off" placeholder="enter user name"></label><br/>
+	<label>Password
+	<input name="pw" type="password" required autocomplete="off" placeholder="enter password"></label><br/>
+	<input type="submit" value="Sign In">
+</form>
+</body>
+<!--
+<%
+o(ENV);
+%>
+-->
+</html>

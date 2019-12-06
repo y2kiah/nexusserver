@@ -1,0 +1,197 @@
+Nexus Protocol Specification
+Version: 1.0
+Author: y2kiah
+Date: 4/26/11
+
+================================================================================
+1	INTRODUCTION
+================================================================================
+--------------------------
+1.1	High Level Description
+--------------------------
+	* built on top of TCP/IP protocol
+	* all messages consist of a common fixed size header, and a variable sized
+		body
+	* uses name-value pair (NVP) message format
+		- Similar to HTTP querystring, but not exactly the same
+	* messages use ASCII character set
+		- may contain a mix of text and little-endian binary values
+		- multibyte characters can exist in user data, but there are no
+			provisions for handling them automatically. There would need to
+			be special case code on the clients to interpret them correctly.
+			
+----------------
+1.2	Key Features
+----------------
+	* Extensible message format
+		Uses text-based messages, and a simple yet flexible name-value pair
+		format. This is advantageous because messages are not fixed-format,
+		"hard coded" structures that must be implemented on the server. Since
+		Nexus Server only needs to redirect messages to and from clients, it
+		does not need to understand the content of messages. This allows user-
+		defined messages to be defined at will, and passed through the server to
+		clients that understand the message.
+		
+	What sets the Nexus protocol apart from others? As far as the transmission
+	of message across networks, not much.
+
+	
+================================================================================
+2	MESSAGE FORMAT
+================================================================================
+-------------------------------------
+2.1 Message Encoding, Text and Binary
+-------------------------------------
+	Messages can be considered as primarily containing text. The message format
+	is dictated by ASCII characters. For the most part, numbers are transmitted
+	in plain text, human-readable form as well.
+	
+	However, some values in the message may be sent in binary form if they are:
+		1) in the message header at a known location, or
+		2) in a message body indicated as binary format.
+	
+	Binary data is used in the header to increase the performance of dispatching
+	messages to their appropriate handlers. Integers encoded in little-endian
+	binary form can be interpreted on most architectures much more quickly than
+	converting the equivalent value from its text representation. Little endian
+	is assumed, so if you are developing a client on a big-endian acitecture,
+	you will have to make the conversion.
+	
+-------------------------
+2.2	Message Header Format
+-------------------------
+	All messages, fixed or user-defined, must transmit this header information
+	ahead of the message body.
+	
+	----------------------------------------------------------------------------
+	Field			Byte			Fixed
+	Name			Pos. 	Type	Value	Description
+	============================================================================
+	Start Char		0		char	'/'		all message begin with this
+											 character
+	Message Code	1-4		uint(b)			unique message identifier
+	Body Length		5-8		uint(b)			length in bytes of the message body,
+											 not including length of this header
+	Body Format		9		char	'f' or	'f'=fixed format, 'n'=NVP format
+									'n'	or	'b'=binary
+									'b'		explained in next section
+	----------------------------------------------------------------------------
+	
+	Notes: (b) indicates value sent as little-endian binary
+		
+----------------
+2.3	Message Body
+----------------
+	The message body starts immediately after the header. In version 1 of the
+	spec this would be position 10, or the 11th character of the message.
+	
+	The total length of the message body, in bytes, is provided in the header.
+	The message is complete once the specified number of bytes have been
+	received, and may then be sent to a handler to be parsed and acted upon.
+	
+	There are three formats that can be used for the message body. The first is
+	"fixed" format, which means each parameter must be passed in the correct
+	order, and no parameters may be omitted. With those guarantees, it is not
+	necessary to use a name-value pair; only separated values need to be
+	transmitted.
+	
+	The "nvp" format means each parameter will be represented by a name and
+	value. This format enables out-of-order parameter passing and omitting
+	parameters. Parameter names should follow common programming language
+	conventions; that is, only alpha characters, digits, and underscores. No
+	spaces or punctuation are allowed, and not beginning with a digit.
+	
+	The "binary" format means the body should not be interpreted as a list of
+	parameters, but rather as a single chunk of binary data. This could be used,
+	for example, to pass an image between clients.
+	
+----------------------
+2.4	Special Characters
+----------------------
+	The special characters used for the NVP format, and partly for the fixed
+	format are below:
+	
+		NVP Special characters
+		---------------------------
+		Parameter separator:	'&'
+		Name/value separator:	'='
+		
+		Other Reserved Characters
+		---------------------------
+		Start character:		'/'
+
+------------------------
+2.5	Example Message Body
+------------------------
+	NVP format:
+		id=3&first=Joe&notes=He's a "good guy" && knows his stuff&last=Schmo
+		
+	Fixed format:
+		3&37&Schmo&Joe&He's a "good guy" && knows his stuff
+		
+	Notice in the example above that the fixed format can result in shorter
+	message lengths some of the time. However, Joe's age of 37 was not present
+	in the NVP parameter list while it was included in the fixed list. If there
+	are many parameters in a message but only few are passed at a time, the NVP
+	format can end up shorter because most parameters can be omitted.
+	
+	Also notice that the NVP message sent the last name at the end, out of
+	order, while the fixed format was limited to fixed ordering.
+	
+	Lastly, notice that the special character '&' in the notes parameter was
+	represented by "&&". This tells the message parser that it is not intended
+	to be used as a separator, and instead becomes a single '&' character in the
+	string. This is the escape method to use with all special characters.
+	
+================================================================================
+3	CLIENT-SERVER COMMUNICATION
+================================================================================
+----------------------------------
+3.1	Client Initialization Sequence
+----------------------------------
+	All Nexus clients should operate in at least two states, "initilization" and
+	"active". Clients start with an empty configuration state, in initialization
+	mode, continuously attempting to connect to the server. Once a connection is
+	established, the following sequence is followed to take the client from
+	initialization to active mode.
+	
+	1) Client connects to server and sends "client id" message
+	2) Server determines if client should be allowed
+		- if so, added to the clients table, sends "server accept" message
+		- if not, logs rejection and closes socket connection
+	3) Client recieves server response
+		- if accepted, move to step 4
+		- if rejected, handle as appropriate
+	4) Client sends "client request codes" message
+	5) Server responds by sending "server codes" message
+	6) Client sends "client request config" message
+	7) Server sends a series of "server config" messages, client receives and
+		handles each one, creating its configuration state along the way
+	8) Server sends "server config end" message, client receives and goes from
+		initialization mode into active mode
+
+
+================================================================================
+4	NEXUS PROTOCOL MESSAGES
+================================================================================
+	These are the built-in messages that provide basic protocol functionality.
+	They are understood and implemented by both the client and server, whereas
+	user-defined messages are understood and acted upon only by clients, while
+	the server simply redirects the message.
+	
+	Protocol messages use codes that are reserved, and are required to be
+	implemented on each client that claims compliance with a version level. Most
+	(if not all) messages use the fixed body format, and use binary encoding of
+	numbers within the body.
+
+-----------------------
+4.1	"Client ID" Message
+-----------------------
+	Description:
+	
+	Header Fields:
+		Code: 0
+		Format: Fixed ('f')
+	Message Body:
+	
+Message Code: 0

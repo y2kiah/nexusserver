@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{2bf4750e-d394-4376-bba0-0b20c753809e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{5f484e33-4ea9-4350-b3d0-6c456821d579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process">
+      <UniqueIdentifier>{ab989cf3-1b36-40b2-ad77-ad871ca11f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{20d1d2ba-babc-4830-b909-1108e030f169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{1ab10040-d40d-4097-816c-e511a8513e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event\Source Files">
+      <UniqueIdentifier>{81c78494-d84d-4c08-aedc-658f0a939e6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event\Header Files">
+      <UniqueIdentifier>{f5d21f20-6029-44fd-91e1-ddcf697a107a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process\Source Files">
+      <UniqueIdentifier>{e51441d3-853f-481c-8ab9-5c40a074da99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process\Header Files">
+      <UniqueIdentifier>{51a7371d-fcda-4c7c-bcf9-c6860d663ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Header Files">
+      <UniqueIdentifier>{b2ebd920-cb70-4d15-995f-aaa6300c4fe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Source Files">
+      <UniqueIdentifier>{b141a8c6-a72b-4da7-a89a-24564ece1aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Header Files">
+      <UniqueIdentifier>{2d68c088-6c3c-40c8-a69a-b2a5d00f212e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Source Files">
+      <UniqueIdentifier>{90c9ec1a-eedd-46ef-a422-fd859601292c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{a3837606-bca2-4ce9-b959-4cf4de1328bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Lua">
+      <UniqueIdentifier>{a366d9dc-1f5f-4a29-9f81-86018bf143c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Lua\Header Files">
+      <UniqueIdentifier>{63f18062-53d9-4108-814e-050a62ef3c50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Lua\Source Files">
+      <UniqueIdentifier>{272afd75-4071-4734-9921-c4f485fa7420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{5713d550-4b12-43a2-8966-4fb8d6c82713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Header Files">
+      <UniqueIdentifier>{79695f10-dd5e-4233-bcd4-797d67d0148c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32\Source Files">
+      <UniqueIdentifier>{6b5586be-9af0-457e-9074-ce9a3a6e5d2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Nexus">
+      <UniqueIdentifier>{a2eca912-fea5-40c6-8e6c-a404204e9695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Nexus\Header Files">
+      <UniqueIdentifier>{5fd9afba-859e-4baa-b0c3-3934ba0383f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Nexus\Source Files">
+      <UniqueIdentifier>{920b48fd-7485-4e85-9f86-125c5cb6f0ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Header Files">
+      <UniqueIdentifier>{0871803e-5f3c-4bf2-a9e0-74416f734249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server\Source Files">
+      <UniqueIdentifier>{aa25bb76-17f1-4792-9b95-5381c9f5a2b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="NexusServer.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Server\TCPServer.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\Event.h">
+      <Filter>Event\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\RegisteredEvents.h">
+      <Filter>Event\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\EventHandler.h">
+      <Filter>Event\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\EventListener.h">
+      <Filter>Event\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\EventManager.h">
+      <Filter>Event\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Process\ThreadProcess.h">
+      <Filter>Process\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Process\ProcessManager.h">
+      <Filter>Process\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ResCache.h">
+      <Filter>Resource\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ResHandle.h">
+      <Filter>Resource\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ResourceProcess.h">
+      <Filter>Resource\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Win32MemoryMappedFile.h">
+      <Filter>Resource\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ZipFile.h">
+      <Filter>Resource\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\BitField.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ConcurrentQueue.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\CVar.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Factory.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Singleton.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Typedefs.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\TCPServerProcess.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Serialization.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\TCPStream.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ScriptFile_Lua.h">
+      <Filter>Scripting\Lua\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ScriptManager_Lua.h">
+      <Filter>Scripting\Lua\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\FastMath.h">
+      <Filter>Utility\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\RemoteEvent.h">
+      <Filter>Event\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nexus\ControlEvents.h">
+      <Filter>Nexus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nexus\Project.h">
+      <Filter>Nexus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nexus\Controls.h">
+      <Filter>Nexus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\HighPerfTimer.h">
+      <Filter>Win32\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32\Win32.h">
+      <Filter>Win32\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nexus\Application.h">
+      <Filter>Nexus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Win32\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Win32\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nexus\Config.h">
+      <Filter>Nexus\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\MimeTypes.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Message.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\HTTPRequestParser.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\HTTPRequest.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\HTTPReply.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\HTTPRequestHandler.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\NexusMessageHandler.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\NexusMessageParser.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\WebResource.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ScriptState_Lua.h">
+      <Filter>Scripting\Lua\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\ScriptEvents_Lua.h">
+      <Filter>Scripting\Lua\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\TCPServerOptions.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\TCPConnection.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\TCPTypes.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\LuaRequestHandler.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\NameValuePair.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\FileSystemSource.h">
+      <Filter>Resource\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\HTTPCookie.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\LuaSession.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\CGI.h">
+      <Filter>Server\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Server\TCPServer.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\Event.cpp">
+      <Filter>Event\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\EventListener.cpp">
+      <Filter>Event\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\EventManager.cpp">
+      <Filter>Event\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\ProcessManager.cpp">
+      <Filter>Process\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\ThreadProcess.cpp">
+      <Filter>Process\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ResCache.cpp">
+      <Filter>Resource\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ZipFile.cpp">
+      <Filter>Resource\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ResHandle.cpp">
+      <Filter>Resource\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\ResourceProcess.cpp">
+      <Filter>Resource\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Win32MemoryMappedFile.cpp">
+      <Filter>Resource\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\CVar.cpp">
+      <Filter>Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Factory.cpp">
+      <Filter>Utility\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\TCPServerProcess.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\ScriptManager_Lua.cpp">
+      <Filter>Scripting\Lua\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Nexus\Controls.cpp">
+      <Filter>Nexus\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Nexus\ControlEvents.cpp">
+      <Filter>Nexus\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\Win32.cpp">
+      <Filter>Win32\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\WinMain.cpp">
+      <Filter>Win32\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32\HighPerfTimer.cpp">
+      <Filter>Win32\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Nexus\Application.cpp">
+      <Filter>Nexus\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Nexus\Config.cpp">
+      <Filter>Nexus\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\MimeTypes.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\HTTPRequestParser.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\HTTPReply.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\HTTPRequestHandler.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\NexusMessageParser.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\ScriptState_Lua.cpp">
+      <Filter>Scripting\Lua\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\TCPConnection.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\LuaRequestHandler.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\FileSystemSource.cpp">
+      <Filter>Resource\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\HTTPRequest.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\HTTPCookie.cpp">
+      <Filter>Server\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NexusServer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

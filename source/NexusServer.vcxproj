@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{86B202DF-9355-4F37-A772-A84CE73DF009}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>NexusServer</RootNamespace>
+    <ProjectName>NexusServer</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>E:\Programming\Libraries\boost_1_47_0;E:\Programming\Libraries\zlib-1.2.3;C:\Documents and Settings\kiahj\Desktop\Programming\boost_1_47_0;C:\Documents and Settings\kiahj\Desktop\Programming\zlib-1.2.3;E:\Programming\Libraries\LuaPlus\luaplus51-all\Src;C:\Documents and Settings\kiahj\Desktop\Programming\LuaPlus\luaplus51-all\Src;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Programming\Libraries\boost_1_47_0\lib;E:\Programming\Libraries\zlib-1.2.3\win32;C:\Documents and Settings\kiahj\Desktop\Programming\boost_1_47_0\lib;C:\Documents and Settings\kiahj\Desktop\Programming\zlib-1.2.3\win32;E:\Programming\Libraries\LuaPlus\lib;C:\Documents and Settings\kiahj\Desktop\Programming\LuaPlus\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\</OutDir>
+    <IntDir>$(SolutionDir)\bin\$(Configuration)\</IntDir>
+    <TargetName>nexus</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\</OutDir>
+    <IntDir>$(SolutionDir)\bin\$(Configuration)\</IntDir>
+    <IncludePath>E:\Programming\Libraries\boost_1_47_0;E:\Programming\Libraries\zlib-1.2.3;C:\Documents and Settings\kiahj\Desktop\Programming\boost_1_47_0;C:\Documents and Settings\kiahj\Desktop\Programming\zlib-1.2.3;E:\Programming\Libraries\LuaPlus\luaplus51-all\Src;C:\Documents and Settings\kiahj\Desktop\Programming\LuaPlus\luaplus51-all\Src;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Programming\Libraries\boost_1_47_0\lib;E:\Programming\Libraries\zlib-1.2.3\win32;C:\Documents and Settings\kiahj\Desktop\Programming\boost_1_47_0\lib;C:\Documents and Settings\kiahj\Desktop\Programming\zlib-1.2.3\win32;E:\Programming\Libraries\LuaPlus\lib;C:\Documents and Settings\kiahj\Desktop\Programming\LuaPlus\lib;$(LibraryPath)</LibraryPath>
+    <TargetName>nexus</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;DEBUG_CONSOLE;_WIN32_WINNT= 0x05010200;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-DBOOST_DATE_TIME_NO_LIB
+-DBOOST_REGEX_NO_LIB -D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>zlib.lib;luaplusstatic51_1201.release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;_WIN32_WINNT= 0x05010200;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-DBOOST_DATE_TIME_NO_LIB
+-DBOOST_REGEX_NO_LIB -D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>zlib.lib;luaplusstatic51_1201.release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="NexusServer.ico" />
+    <None Include="ReadMe.txt" />
+    <None Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Event\Event.h" />
+    <ClInclude Include="Event\EventHandler.h" />
+    <ClInclude Include="Event\EventListener.h" />
+    <ClInclude Include="Event\EventManager.h" />
+    <ClInclude Include="Event\RegisteredEvents.h" />
+    <ClInclude Include="Event\RemoteEvent.h" />
+    <ClInclude Include="Nexus\Application.h" />
+    <ClInclude Include="Nexus\Config.h" />
+    <ClInclude Include="Nexus\ControlEvents.h" />
+    <ClInclude Include="Nexus\Controls.h" />
+    <ClInclude Include="Nexus\Project.h" />
+    <ClInclude Include="Process\ProcessManager.h" />
+    <ClInclude Include="Process\ThreadProcess.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Resource\ResCache.h" />
+    <ClInclude Include="Resource\ResHandle.h" />
+    <ClInclude Include="Resource\ResourceProcess.h" />
+    <ClInclude Include="Resource\FileSystemSource.h" />
+    <ClInclude Include="Resource\Win32MemoryMappedFile.h" />
+    <ClInclude Include="Resource\ZipFile.h" />
+    <ClInclude Include="Scripting\ScriptFile_Lua.h" />
+    <ClInclude Include="Scripting\ScriptEvents_Lua.h" />
+    <ClInclude Include="Scripting\ScriptManager_Lua.h" />
+    <ClInclude Include="Scripting\ScriptState_Lua.h" />
+    <ClInclude Include="Server\CGI.h" />
+    <ClInclude Include="Server\HTTPCookie.h" />
+    <ClInclude Include="Server\LuaRequestHandler.h" />
+    <ClInclude Include="Server\LuaSession.h" />
+    <ClInclude Include="Server\Message.h" />
+    <ClInclude Include="Server\NameValuePair.h" />
+    <ClInclude Include="Server\NexusMessageHandler.h" />
+    <ClInclude Include="Server\NexusMessageParser.h" />
+    <ClInclude Include="Server\MimeTypes.h" />
+    <ClInclude Include="Server\HTTPReply.h" />
+    <ClInclude Include="Server\HTTPRequest.h" />
+    <ClInclude Include="Server\HTTPRequestHandler.h" />
+    <ClInclude Include="Server\HTTPRequestParser.h" />
+    <ClInclude Include="Server\TCPConnection.h" />
+    <ClInclude Include="Server\TCPServer.h" />
+    <ClInclude Include="Server\TCPServerOptions.h" />
+    <ClInclude Include="Server\TCPServerProcess.h" />
+    <ClInclude Include="Server\TCPStream.h" />
+    <ClInclude Include="Server\TCPTypes.h" />
+    <ClInclude Include="Server\WebResource.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Utility\BitField.h" />
+    <ClInclude Include="Utility\ConcurrentQueue.h" />
+    <ClInclude Include="Utility\CVar.h" />
+    <ClInclude Include="Utility\Factory.h" />
+    <ClInclude Include="Utility\FastMath.h" />
+    <ClInclude Include="Utility\Serialization.h" />
+    <ClInclude Include="Utility\Singleton.h" />
+    <ClInclude Include="Utility\Typedefs.h" />
+    <ClInclude Include="Win32\HighPerfTimer.h" />
+    <ClInclude Include="Win32\Win32.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Event\Event.cpp" />
+    <ClCompile Include="Event\EventListener.cpp" />
+    <ClCompile Include="Event\EventManager.cpp" />
+    <ClCompile Include="Nexus\Application.cpp" />
+    <ClCompile Include="Nexus\Config.cpp" />
+    <ClCompile Include="Nexus\ControlEvents.cpp" />
+    <ClCompile Include="Nexus\Controls.cpp" />
+    <ClCompile Include="Process\ProcessManager.cpp" />
+    <ClCompile Include="Process\ThreadProcess.cpp" />
+    <ClCompile Include="Resource\FileSystemSource.cpp" />
+    <ClCompile Include="Resource\ResCache.cpp" />
+    <ClCompile Include="Resource\ResHandle.cpp" />
+    <ClCompile Include="Resource\ResourceProcess.cpp" />
+    <ClCompile Include="Resource\Win32MemoryMappedFile.cpp" />
+    <ClCompile Include="Resource\ZipFile.cpp" />
+    <ClCompile Include="Scripting\ScriptManager_Lua.cpp" />
+    <ClCompile Include="Scripting\ScriptState_Lua.cpp" />
+    <ClCompile Include="Server\HTTPCookie.cpp" />
+    <ClCompile Include="Server\HTTPRequest.cpp" />
+    <ClCompile Include="Server\LuaRequestHandler.cpp" />
+    <ClCompile Include="Server\NexusMessageParser.cpp" />
+    <ClCompile Include="Server\MimeTypes.cpp" />
+    <ClCompile Include="Server\HTTPReply.cpp" />
+    <ClCompile Include="Server\HTTPRequestHandler.cpp" />
+    <ClCompile Include="Server\HTTPRequestParser.cpp" />
+    <ClCompile Include="Server\TCPConnection.cpp" />
+    <ClCompile Include="Server\TCPServer.cpp" />
+    <ClCompile Include="Server\TCPServerProcess.cpp" />
+    <ClCompile Include="Utility\CVar.cpp" />
+    <ClCompile Include="Utility\Factory.cpp" />
+    <ClCompile Include="Win32\HighPerfTimer.cpp" />
+    <ClCompile Include="Win32\Win32.cpp" />
+    <ClCompile Include="Win32\WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NexusServer.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

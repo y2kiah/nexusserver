@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+	<uuid>a78f8f50-ff43-11e0-be50-0800200c9a66"</uuid>
+	<name>A-10C Cockpit</name>
+	<!-- list of all servers used by the project -->
+	<servers count="3">
+		<server>
+			<protocol>tcp</protocol>
+			<port>50000</port>
+			<enabled>1</enabled>
+		</server>
+		<server>
+			<protocol>udp</protocol>
+			<port>50001</port>
+			<enabled>1</enabled>
+		</server>
+		<server>
+			<protocol>http</protocol>
+			<port>8080</port>
+			<enabled>1</enabled>
+		</server>
+	</servers>
+	
+	<clients count="2">
+		<client id="0">
+			<!-- will use combination of ip, mac and uuid to uniquely identify the client
+				 ip is required, others are optional -->
+			<ip_addr>192.168.2.1</ip_addr>
+			<mac_addr></mac_addr>
+			<uuid></uuid>
+			<instance_device ref="1">	<!-- instance of an Arduino Uno device -->
+				<extensions count="2"> 	<!-- extend a stock board with "virtual pins" usually at the expense of fewer physical pins -->
+					<matrix id="0" vpins="16" prefix="MAT-"> <!-- wiring a key matrix doesn't use any ICs to extend pin count -->
+						<active_level>high</active_level>
+						<rows count="4" role="read"> <!-- "read" role means pin mode input, read for active level -->
+							1,2,3,4					 <!-- these are the real pins used by each row -->
+						</rows>
+						<columns count="4" role="set"> <!-- "set" role means pin mode output, set active level for scanning -->
+							5,6,7,8
+						</columns>
+						<concurrent_active>1</concurrent_active>
+					</matrix>
+					
+					<shift_register id="1" type="74HC164" vpins="8" prefix="SR-"> <!-- here's an example of an IC based extension -->
+						<iotype>digital</iotype>	<!-- shift registers come in many flavors -->
+						<iomode>output</iomode>		<!-- this one is digital output only -->
+						<use_pins count="2">9,10</use_pins>	<!-- some ICs will use more pins, 3 for "latching" type shift registers -->
+					</shift_register>
+					
+					<multiplexer id="2" type="MAX72XX" vpins="64" prefix="MP-">
+						<iotype>digital</iotype>
+						<iomode>output</iomode>
+						<pwm>1</pwm>
+						<use_pins count="3">11,12,13</use_pins> <!-- would have to be SPI pins in this case -->
+					</multiplexer>
+				</extensions>
+			</instance_device>
+		</client>
+		
+		<client id="1">
+			<ip_addr>127.0.0.1</ip_addr>
+			<mac_addr></mac_addr>
+			<uuid>21acc860-ff90-11e0-be50-0800200c9a66</uuid>
+			<instance_device ref="0"></instance_device> <!-- instance of a DCS A-10C 1.1.0.9 Sim device -->
+		</client>
+	</clients>
+	
+	<physical_cockpits count="1">
+		<physical_cockpit id="0">
+			<consoles count="1">
+				<console id="0" name="Left Console">
+					<panels count="1">
+						<panel id="0">
+							<name>Fuel Panel</name>
+							<controls count="3">
+								<digital_switch id="0" instance_device_ref="0">
+									<name>EXT TKS WING</name>
+									<active_level>low</active_level>
+									<debounce_time_ms>100</debounce_time_ms>
+									<positions count="2">
+										<position id="0">
+											<label>ON</label>
+											<use_pin>0</use_pin>
+										</position>
+										<position id="1">
+											<label>OFF</label>
+											<use_pin off="true"></use_pin>
+										</position>
+									</positions>
+								</digital_switch>
+								
+								<potentiometer id="1">
+									<name>RCVR LT</name>
+									<use_pin>14</use_pin>
+									<debounce_time_ms>100</debounce_time_ms>
+									<min_delta>0.01</min_delta>
+									<report_interval_ms>500</report_interval_ms>
+									<mapping>
+										<range curve="linear" invert="0">
+											<lower><from>0</from><to>0</to></lower>
+											<upper><from>255</from><to>1.0</to></upper>
+										</range>
+									</mapping>
+								</potentiometer>
+								
+								<pushbutton id="2">
+									<name>LINE CHECK</name>
+									<active_level>low</active_level>
+									<use_pin>MAT-0</use_pin>
+									<debounce_time_ms>100</debounce_time_ms>
+								</pushbutton>
+							</controls>
+						</panel>
+					</panels>
+				</console>
+			</consoles>
+		</physical_cockpit>
+	</physical_cockpits>
+	
+	<library_devices count="2">
+		<device id="0" type="simulation_host">
+			<name>DCS A-10C 1.1.0.9</name>
+			
+			<variables count="1">
+				<variable id="0">
+					<name>ias</name>
+					<desc>Indicated Airspeed</desc>
+					<type>float</type>
+					<default>0</default>
+					<source><![CDATA[**lua goes here**]]></source>
+				</variable>
+			</variables>
+			
+			<signals count="1">
+				<signal id="0">
+					<name>update_vars</name>
+					<description>Update of all requested simulation variables</description>
+					<params count="2">
+						<param index="0" type="long">time</param>
+						<param index="1" type="string">vars</param>
+					</params>
+				</signal>
+			</signals>
+			
+			<slots count="1">
+				<slot id="0">
+					<name>set_control</name>
+					<description>Set the value or position of a cockpit control</description>
+					<params count="2">
+						
+					</params>
+				</slot>
+			</slots>
+		</device>
+		
+		<device id="1" type="controller">
+			<name>Arduino Uno</name>
+			<pins count="20">
+				<pin id="0">
+					<name>D0</name>
+					<iotype>digital</iotype>
+					<iomode>both</iomode>
+					<pullup>1</pullup>
+					<pwm>0</pwm>
+					<spi></spi>
+					<serial>rx</serial>
+					<i2c></i2c>
+					<interrupt>0</interrupt>
+					<reserved>0</reserved>
+				</pin>
+				<pin id="1"><name>D1</name><type>digital</type><iomode>both</iomode><pullup>1</pullup><serial>tx</serial></pin>
+				<pin id="2"><name>D2</name><type>digital</type><iomode>both</iomode><pullup>1</pullup></pin>
+				<pin id="3"><name>D3</name><type>digital</type><iomode>both</iomode><pullup>1</pullup><pwm>1</pwm></pin>
+				<pin id="4"><name>D4</name><type>digital</type><iomode>both</iomode><pullup>1</pullup></pin>
+				<pin id="5"><name>D5</name><type>digital</type><iomode>both</iomode><pullup>1</pullup><pwm>1</pwm></pin>
+				<pin id="6"><name>D6</name><type>digital</type><iomode>both</iomode><pullup>1</pullup><pwm>1</pwm></pin>
+				<pin id="7"><name>D7</name><type>digital</type><iomode>both</iomode><pullup>1</pullup></pin>
+				<pin id="8"><name>D8</name><type>digital</type><iomode>both</iomode><pullup>1</pullup></pin>
+				<pin id="9"><name>D9</name><type>digital</type><iomode>both</iomode><pullup>1</pullup><pwm>1</pwm></pin>
+				<pin id="10"><name>D10</name><type>digital</type><iomode>both</iomode><pullup>1</pullup><pwm>1</pwm></pin>
+				<pin id="11"><name>D11</name><type>digital</type><iomode>both</iomode><pullup>1</pullup><pwm>1</pwm></pin>
+				<pin id="12"><name>D12</name><type>digital</type><iomode>both</iomode><pullup>1</pullup></pin>
+				<pin id="13"><name>D13</name><type>digital</type><iomode>both</iomode><pullup>1</pullup></pin>
+				<pin id="14"><name>A0</name><type>analog</type><iomode>both</iomode></pin>
+				<pin id="15"><name>A1</name><type>analog</type><iomode>both</iomode></pin>
+				<pin id="16"><name>A2</name><type>analog</type><iomode>both</iomode></pin>
+				<pin id="17"><name>A3</name><type>analog</type><iomode>both</iomode></pin>
+				<pin id="18"><name>A4</name><type>analog</type><iomode>both</iomode></pin>
+				<pin id="19"><name>A5</name><type>analog</type><iomode>both</iomode></pin>
+			</pins>
+		</device>
+	</library_devices>
+	
+	<library_events>
+		<event id="0" protocol="tcp">
+			<name></name>
+			<desc></desc>
+			<params>
+				<param type="string"></param>
+			</params>
+		</event>
+	</library_events>
+</project>

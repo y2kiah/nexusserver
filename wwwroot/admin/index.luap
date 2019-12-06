@@ -1,0 +1,416 @@
+<%
+print(package.path.."\n\n");
+print(package.cpath.."\n\n");
+
+--require("LuaXml");
+--local xfile = xml.load("projects\test.xml")
+--print(xfile);
+
+-- start session
+startSession();
+if not SESSION["userid"] then
+	location(ENV.PATH_INFO.."/login.luap");
+	return;
+end
+
+%>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="author" content="Jeff Kiah" />
+<meta name="copyright" content="&copy; Copyright 2011 Jeff Kiah" />
+<title>Nexus Admin</title>
+<link rel="shortcut icon" href="favicon.ico" />
+
+<!-- YUI CSS -->
+<!--<link rel="stylesheet" type="text/css" href="yui/assets/skins/sam/skin.css">-->
+<link rel="stylesheet" type="text/css" href="yui/resize/assets/skins/sam/resize.css">
+<link rel="stylesheet" type="text/css" href="yui/layout/assets/skins/sam/layout.css">
+<link rel="stylesheet" type="text/css" href="yui/menu/assets/skins/sam/menu.css">
+<!-- YUI JS -->
+<script type="text/javascript" src="yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="yui/animation/animation-min.js"></script>
+<script type="text/javascript" src="yui/dragdrop/dragdrop-min.js"></script>
+<script type="text/javascript" src="yui/element/element-min.js"></script>
+<script type="text/javascript" src="yui/resize/resize-min.js"></script>
+<script type="text/javascript" src="yui/layout/layout-min.js"></script>
+<script type="text/javascript" src="yui/container/container_core-min.js"></script>
+<script type="text/javascript" src="yui/menu/menu-min.js"></script>
+
+<!-- custom JS -->
+<script type="text/javascript">
+	(function() {
+		var Dom = YAHOO.util.Dom,
+			Event = YAHOO.util.Event;
+	 
+		Event.onDOMReady(function() {
+			var layout = new YAHOO.widget.Layout({
+				units: [
+					{
+						position: "top",
+						height: 70,
+						gutter: "5px",
+						body: "outer-top",
+						scroll: null, // allow submenus to escape
+						zIndex: 1
+					},
+					{
+						position: "right",
+						width: 300,
+						gutter: "0px 5px", 
+						header: "Right",
+						footer: "Footer",
+						body: "Body",
+						resize: true,
+						collapse: true,
+						//close: true,
+						scroll: true
+					},
+					{
+						position: "left",
+						width: 200,
+						gutter: "0px 5px",
+						header: "Left",
+						footer: "Footer",
+						body: "Body",
+						resize: true,
+						collapse: true,
+						//close: true,
+						scroll: true
+					},
+					{
+						position: "center",
+						scroll: true,
+						body: "outer-center"
+					},
+					{
+						position: "bottom",
+						height: 40,
+						gutter: "5px",
+						body: "outer-bottom"
+					}
+				]
+			});
+			layout.render();
+			
+			// Application menu
+			var aItemData = [
+			{ // File menu 
+				text: "File",
+				submenu: {
+					id: "filemenu",
+					itemdata: [
+						{ text: "New Project", helptext: "Ctrl+N", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 78 } },
+						{ text: "Open Project", helptext: "Ctrl+O", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 79 } },
+						"Import...",
+						{ text: "Print", helptext: "Ctrl+P", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 80 } }
+					]
+				}
+			},
+			{ // Edit menu
+				text: "Edit",
+				submenu: {
+					id: "editmenu",
+					itemdata: [
+						[
+							{ text: "Undo", helptext: "Ctrl+Z", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 90 } },
+							{ text: "Redo", helptext: "Ctrl+Y", disabled: true }
+						],
+						[
+							{ text: "Cut", helptext: "Ctrl+X", disabled: true },
+							{ text: "Copy", helptext: "Ctrl+C", disabled: true },
+							{ text: "Paste", helptext: "Ctrl+V", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 86 } },
+							{ text: "Delete", helptext: "Del", disabled: true }
+						],
+						[
+							{ text: "Select All", helptext: "Ctrl+A", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 65 } }
+						],
+						[
+							{ text: "Find", helptext: "Ctrl+F", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 70 } },
+							{ text: "Find Again", helptext: "Ctrl+G", onclick: { fn: onMenuItemClick }, keylistener: { ctrl: true, keys: 71 } }
+						]
+					]
+				}
+			},
+			{ // Project menu
+				text: "Project",
+				submenu: {
+					id: "projectmenu",
+					itemdata: [
+						{ text: "Option 1" }
+					]
+				}
+			},
+			{ // Tools menu
+				text: "Tools",
+				submenu: {
+					id: "toolsmenu",
+					itemdata: [
+						{ text: "Libraries..." }
+					]
+				}
+			}
+			];
+			
+			var onMenuItemClick = function () {
+				alert("Callback for MenuItem: " + this.cfg.getProperty("text"));
+			};
+
+			/*
+				Instantiate a MenuBar:  The first argument passed to the
+				constructor is the id of the element to be created; the
+				second is an object literal of configuration properties.
+			*/
+			var oMenuBar = new YAHOO.widget.MenuBar("mainmenu", { lazyload: true, itemdata: aItemData } );
+
+			/*
+				Since this MenuBar instance is built completely from
+				script, call the "render" method passing in a node
+				reference for the DOM element that its should be
+				appended to.
+			*/
+			oMenuBar.render("outer-top");
+			
+			function onSubmenuShow() {
+				var oIFrame, oElement, nOffsetWidth;
+				
+				// Keep the left-most submenu against the left edge of the browser viewport
+				if (this.id == "filemenu") {
+					YAHOO.util.Dom.setX(this.element, 0);
+					oIFrame = this.iframe;
+					if (oIFrame) {
+						YAHOO.util.Dom.setX(oIFrame, 0);
+					}
+					this.cfg.setProperty("x", 0, true);
+				}
+
+				/*
+					Need to set the width for submenus of submenus in IE to prevent the mouseout 
+					event from firing prematurely when the user mouses off of a MenuItem's 
+					text node.
+				*/
+				if ((this.id == "editmenu" || this.id == "projectmenu" || this.id == "toolsmenu") && YAHOO.env.ua.ie) {
+					oElement = this.element;
+					nOffsetWidth = oElement.offsetWidth;
+					/*
+						Measuring the difference of the offsetWidth before and after
+						setting the "width" style attribute allows us to compute the 
+						about of padding and borders applied to the element, which in 
+						turn allows us to set the "width" property correctly.
+					*/
+					oElement.style.width = nOffsetWidth + "px";
+					oElement.style.width = (nOffsetWidth - (oElement.offsetWidth - nOffsetWidth)) + "px";
+				}
+			}
+			
+			// Subscribe to the "show" event for each submenu
+			//oMenuBar.subscribe("show", onSubmenuShow);
+			
+		});
+	})();
+</script>
+</head>
+
+<body class="yui-skin-sam">
+<div id="outer-top">
+	<span style="font-size:24px;">neXus&nbsp;</span><span style="font-size:18px;">ADMIN</span>
+	<span style="font-size:18px;float:right;"><a style="color:black;" href="#" onclick="">settings</a></span>
+</div>
+<div id="outer-bottom"><span>&copy 2011 J.Kiah</span></div>
+<div id="outer-center">
+	<ul id="tabbuttons">
+		<li class="tab1"><a href="#tab1">Server</a></li>
+		<li class="tab2"><a href="#tab2">Projects</a></li>
+	</ul>
+	<div id="tabpanels" class="container">
+		<div id="tab1" class="">
+			<div style="overflow:auto;">
+				<!-- Projects list -->
+				<ul>
+					<li>
+						<h3>Project 1</h3>
+						<div id="project1Servers">
+							<ul>
+								<li>
+									<span>TCP Server</span>
+									<label>Enabled<input type="checkbox" checked /></label>
+									<label>Port<input type="text" /></label>
+								</li>
+								<li>
+									<span>UDP Server</span>
+									<label>Enabled<input type="checkbox" checked /></label>
+									<label>Port<input type="text" /></label>
+								</li>
+								<li>
+									<span>HTTP Server</span>
+									<label>Enabled<input type="checkbox" checked /></label>
+									<label>Port<input type="text" /></label>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<h3>Project 2</h3>
+						<div id="project2Servers">
+							<ul>
+								<li>
+									<span>TCP Server</span>
+									<label>Enabled<input type="checkbox" checked /></label>
+									<label>Port<input type="text" /></label>
+								</li>
+								<li>
+									<span>UDP Server</span>
+									<label>Enabled<input type="checkbox" checked /></label>
+									<label>Port<input type="text" /></label>
+								</li>
+								<li>
+									<span>HTTP Server</span>
+									<label>Enabled<input type="checkbox" checked /></label>
+									<label>Port<input type="text" /></label>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="tab2">
+			<div>
+				<div id="projectToolbar">
+					<input type="button" value="Open" />
+					<input type="button" value="New" />
+				</div>
+				<div id="projectDetails">
+					<form id="projectIDForm" name="projectIDForm"
+						action="test.html" method="post"
+						>
+						<div id="projectToolbar2">
+							<input type="button" value="Edit" />
+							<input type="submit" value="Save" />
+							<input type="reset" value="Reset" />
+						</div>
+						<label>Project Name<input type="text" /></label><br>
+						<label>Path<input type="text" /></label><br>
+						<label>TCP Server<input type="checkbox" checked /></label>
+						<label>Default Port<input type="text" /></label><br>
+						<label>HTTP Server<input type="checkbox" checked /></label>
+						<label>Default Port<input type="text" /></label><br>
+					</form>
+				</div>
+				<div id="projectClients">
+					<h3>TCP Clients</h3>
+					<div id="projectClientsToolbar">
+						<input type="button" value="Add" />
+						<input type="button" value="Remove" />
+						<input type="button" value="Import" /><!-- import and export client type definition -->
+						<input type="button" value="Export" />
+					</div>
+					<ul id="projectClientsList" style="float:left;padding:4px;">
+						<li>Client 1</li>
+						<li>Client 2</li>
+						<li>Client 3</li>
+					</ul>
+					<div style="float:left;border-left:1px solid black;padding:4px;">
+						<form id="clientIDForm" name="clientIDForm"
+							action="test.html" method="post"
+							>
+							<div id="projectClientsToolbar2">
+								<input type="button" value="Edit" />
+								<input type="submit" value="Save" />
+								<input type="reset" value="Reset" />
+							</div>
+							<label>Client Name<input type="input" /></label><br>
+							<label>ID<input type="text" /></label><br>
+							<label><input type="checkbox" />Enabled</label><br>
+							<label>Client Type
+								<select><!-- group by category -->
+									<option value="">-- Select Type --</option>
+									<!-- group sim software -->
+									<option value="sim-a10">DCS A-10C</option>
+									<!-- group controller boards -->
+									<option value="arduino-nexus">Arduino-compatible (Nexus firmware)</option>
+									<!-- group client software -->
+									<option value="nexus-hsi">Nexus HSI</option>
+								</select></label><br>
+							<input type="button" value="Signals/Slots" />
+						</form>
+					</div>
+					<hr style="clear:both;" />
+					<div>
+						<h3>Signal/Slot Editor</h3>
+						<div style="float:left;width:45%;margin:4px;padding:4px;border:1px solid #999;">
+							<h3>Slots</h3>
+							<!-- put this under an Info icon button -->
+							<textarea>
+								Slots are placeholders for handling signals sent to the receiving client by other clients.
+								To set up a signal/slot relationship, drag a signal from the list and drop it onto a slot.
+								At runtime, the receiving client will automatically listen for the appropriate signals, and handle them using the corresponding slots. 
+								For example, a "digital switch change" signal from a controller client can be dropped onto a "change cockpit control" slot of a simulator software client.
+							</textarea>
+							<div>
+								<label>Client<select>
+									<option value="">-- Select Client --</option>
+								</select></label>
+								<label>Console<select>
+									<option value="">-- All Consoles --</option>
+								</select></label>
+								<label>Panel<select>
+									<option value="">-- All Panels --</option>
+								</select></label>
+								<label>Control<select>
+									<option value="">-- All Controls --</option>
+								</select></label>
+							</div>
+							<div style="left:0px;right:0px;height:100px;border:1px solid #999"></div>
+						</div>
+						<div style="float:left;width:25%;height:100%;margin:4px;padding:4px;border:1px solid #999;">
+							<h3>Signals</h3>
+							<label>Client<select>
+								<option value="">-- Select Client --</option>
+							</select></label>
+							<label>Console<select>
+								<option value="">-- All Consoles --</option>
+							</select></label>
+							<label>Panel<select>
+								<option value="">-- All Panels --</option>
+							</select></label>
+							<label>Control<select>
+								<option value="">-- All Controls --</option>
+							</select></label>								
+							<ul>
+								<li>Signal 1</li>
+								<li>Signal 2</li>
+								<li>Signal 3</li>
+							</ul>
+						</div>
+						<div style="float:left;height:100%;margin:4px;padding:4px;border:1px solid #999;">
+							<h3>Properties</h3>
+							<form id="slotIDPropertyForm" name="slotIDPropertyForm"
+								action="test.html" method="post"
+								>
+								<!-- loop properties from meta information -->
+								<label>ID<input type="text" readonly /></label><br>
+								<label>Name<input type="text" /><label><br>
+								<label>Bindings<input type="button" value="..." /></label><br>
+							</form>
+						</div>
+						<div style="clear:both;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--
+<%
+o("ENV = "); o(ENV);
+o("\nURL = "); o(URL);
+o("\nFORM = "); o(FORM);
+o("\nSESSION = "); o(SESSION);
+
+saveSession();
+%>
+-->
+</body>
+</html>
